@@ -6,7 +6,7 @@
             "type": "string",
             "defaultValue": "Basic_A1",
             "metadata": {
-                "description": "Vir"
+                "description": "Virtual machine size (has to be at least the size of Standard_A3 to support 2 NICs)"
             }
         },
         "adminUsername": {
@@ -34,12 +34,14 @@
         }
     },
     "variables": {
-        "virtualMachineName": "VM03",
-        "virtualNetworkName": "virtualNetwork",
-        "nic1": "NIC03",
-        "publicIPAddressName": "publicIp",
+        "virtualMachineName": "VM04",
+        "nic1": "NIC04",
+        "virtualNetworkName": "virtualNetwork04",
+        "subnet1Name": "SUBNET04",
+        "publicIPAddressName": "publicIp04",
+        "subnet1Ref": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnet1Name'))]",
         "diagStorageAccountName": "[concat('diags',uniqueString(resourceGroup().id))]",
-        "networkSecurityGroupName": "NSG"
+        "networkSecurityGroupName": "NSG04"
     },
     "resources": [
         {
@@ -49,6 +51,7 @@
             "location": "[resourceGroup().location]",
             "comments": "This is the virtual machine that you're building.",
             "dependsOn": [
+                "[variables('nic1')]",
                 "[variables('diagStorageAccountName')]"
             ],
             "properties": {
@@ -81,8 +84,8 @@
                             "properties": {
                                 "primary": true
                             },
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('NIC03'))]"
-                        },
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nic1'))]"
+                        }
                     ]
                 },
                 "diagnosticsProfile": {
@@ -103,6 +106,28 @@
             },
             "kind": "Storage",
             "properties": {}
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[variables('virtualNetworkName')]",
+            "apiVersion": "2017-06-01",
+            "location": "[resourceGroup().location]",
+            "comments": "This will build a Virtual Network.",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.0.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('subnet1Name')]",
+                        "properties": {
+                            "addressPrefix": "10.0.0.0/24"
+                        }
+                    }
+                ]
+            }
         },
         {
             "name": "[variables('nic1')]",
@@ -135,7 +160,6 @@
                 }
             }
         },
-
         {
             "name": "[variables('publicIpAddressName')]",
             "type": "Microsoft.Network/publicIpAddresses",

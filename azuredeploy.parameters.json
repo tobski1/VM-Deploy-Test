@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "adminUsername": {
-            "value": "GEN-UNIQUE"
+            "value": "toby"
         },
         "adminPassword": {
-            "value": "GEN-PASSWORD"
+            "value": "Divorcefg1!!"
         }
     }
 }

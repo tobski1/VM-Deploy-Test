@@ -6,7 +6,11 @@
             "value": "toby"
         },
         "adminPassword": {
-            "value": "--------"
+            "value": "TheOffice1!!"
+        }
+        ,
+        "virtualMachineSize": {
+            "value": "Basic_A2"
         }
     }
 }

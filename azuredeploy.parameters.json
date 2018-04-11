@@ -10,7 +10,7 @@
         }
         ,
         "virtualMachineSize": {
-            "value": "Basic_A2"
+            "value": "Standard_D1"
         }
     }
 }
